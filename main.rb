@@ -15,5 +15,7 @@ end.parse!
 
 player_decks = deal_cards(options.num_players)
 
-
+while player_decks.select {|d| !d.empty?} .size > 1
+  play_turn(player_decks)
+end
 

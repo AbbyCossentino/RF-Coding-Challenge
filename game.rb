@@ -30,9 +30,8 @@ end
 
 def play_turn(player_decks)
   cards = player_decks.map {|d| d.empty? ? nil : d.shift}
-  in_play = cards.dup
+  in_play = cards.dup.select {|c| c != nil}
 
-  puts cards.join(" ")
   while is_tied(cards) do
     max_value = card_values(cards).max
     cards.each_index do |i|

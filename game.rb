@@ -35,16 +35,27 @@ def play_turn(player_decks)
   puts "Cards Played:  " + cards.map {|c| format("%2s", c)} .join("  ")
 
   while is_tied(cards) do
+    played_cards = false
     max_value = card_values(cards).max
     cards.each_index do |i|
       if cards[i] != nil and cards[i].value == max_value
         cards_dealt = player_decks[i].shift(4)
         in_play += cards_dealt
-        cards[i] = cards_dealt.last unless cards_dealt.empty?
+
+        unless cards_dealt.empty?
+          cards[i] = cards_dealt.last
+          played_cards = true
+        end
       else
         cards[i] = nil
       end
     end
+
+    unless played_cards
+      puts "Players are tied and out of cards. Round cannot conclude."
+      exit
+    end
+
     puts "Cards Played:  " + cards.map {|c| format("%2s", c)} .join("  ")
   end
 

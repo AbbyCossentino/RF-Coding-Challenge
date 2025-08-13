@@ -16,6 +16,8 @@ end.parse!
 player_decks = deal_cards(options.num_players)
 
 while player_decks.select {|d| !d.empty?} .size > 1
+  puts
+  puts "Deck Sizes:    " + player_decks.map {|d| format("%2i", d.size)} .join("  ")
   play_turn(player_decks)
 end
 

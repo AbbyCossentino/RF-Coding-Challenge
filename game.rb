@@ -32,6 +32,8 @@ def play_turn(player_decks)
   cards = player_decks.map {|d| d.empty? ? nil : d.shift}
   in_play = cards.dup.select {|c| c != nil}
 
+  puts "Cards Played:  " + cards.map {|c| format("%2s", c)} .join("  ")
+
   while is_tied(cards) do
     max_value = card_values(cards).max
     cards.each_index do |i|
@@ -43,7 +45,8 @@ def play_turn(player_decks)
         cards[i] = nil
       end
     end
+    puts "Cards Played:  " + cards.map {|c| format("%2s", c)} .join("  ")
   end
 
-  player_decks[winning_card_idx(cards)] += in_play
+  player_decks[winning_card_idx(cards)] += in_play.shuffle
 end

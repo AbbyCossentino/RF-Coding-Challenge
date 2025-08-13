@@ -22,6 +22,8 @@ class Card
     @value = value
   end
 
+  attr_reader :suit, :value
+
   def to_s
     VALUES_STR[@value] + @suit
   end

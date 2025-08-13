@@ -14,10 +14,37 @@ def deal_cards(num_players)
   return player_decks
 end
 
-def winning_card(cards)
-  values = cards.map {|c| c.value}
-  max_value = values.max
-  return nil if cards.select {|c| c.value == max_value}.size > 1
-  return values.index(max_value)
+def card_values(cards)
+  cards.map {|c| c == nil ? 0 : c.value}
 end
 
+def is_tied(cards)
+  values = card_values(cards)
+  return values.select {|v| v == values.max} .size > 1
+end
+
+def winning_card_idx(cards)
+  values = card_values(cards)
+  return values.index(values.max)
+end
+
+def play_turn(player_decks)
+  cards = player_decks.map {|d| d.empty? ? nil : d.shift}
+  in_play = cards.dup
+
+  puts cards.join(" ")
+  while is_tied(cards) do
+    max_value = card_values(cards).max
+    cards.each_index do |i|
+      if cards[i] != nil and cards[i].value == max_value
+        cards_dealt = player_decks[i].shift(4)
+        in_play += cards_dealt
+        cards[i] = cards_dealt.last unless cards_dealt.empty?
+      else
+        cards[i] = nil
+      end
+    end
+  end
+
+  player_decks[winning_card_idx(cards)] += in_play
+end
